@@ -38,13 +38,12 @@ io.on("connection", (socket) => {
   });
 });
 
-// UPDATED: Use path.join to serve static files from the main directory
-app.use(express.static(path.join(__dirname)));
+// UPDATED: Use path.join to serve static files from the "public" folder
+app.use(express.static(path.join(__dirname, "public")));
 
-// UPDATED: Use path.join to send the index.html file
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
-});
+// NOTE: We don't need the app.get("/") route anymore,
+// because express.static will automatically find and serve 
+// "index.html" from the "public" folder.
 
 let PORT = process.env.PORT || 8080;
 httpServer.listen(PORT, () => console.log(`Server started on port ${PORT}`));
