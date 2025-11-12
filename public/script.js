@@ -5,7 +5,7 @@ let canvas = document.getElementById("canvas");
 canvas.width = 0.98 * window.innerWidth;
 canvas.height = window.innerHeight - 70; // 70px to give space for toolbar
 
-var io = io.connect("http://localhost:8080/");
+var io = io();
 
 let ctx = canvas.getContext("2d");
 
@@ -118,3 +118,4 @@ window.onmousemove = (e) => {
   }
 
 };
+
