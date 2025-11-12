@@ -2,6 +2,10 @@ let express = require("express");
 let app = express();
 let httpServer = require("http").createServer(app);
 let io = require("socket.io")(httpServer);
+
+// NEW: Import the 'path' module
+let path = require("path");
+
 let connections = [];
 
 io.on("connection", (socket) => {
@@ -34,12 +38,12 @@ io.on("connection", (socket) => {
   });
 });
 
-// This line serves your script.js file. Make sure it's "." not "public"
-app.use(express.static("."));
+// UPDATED: Use path.join to serve static files from the main directory
+app.use(express.static(path.join(__dirname)));
 
-// NEW: This line fixes the "Cannot GET /" error
+// UPDATED: Use path.join to send the index.html file
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
 let PORT = process.env.PORT || 8080;
