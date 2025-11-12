@@ -9,26 +9,22 @@ io.on("connection", (socket) => {
   console.log(`${socket.id} has connected`);
 
   socket.on("draw", (data) => {
-    // This code is unchanged. It just passes the new data object (with color/width)
     connections.forEach((con) => {
       if (con.id !== socket.id) {
-        con.emit("ondraw", data); // 'data' now contains {x, y, color, width, tool}
+        con.emit("ondraw", data);
       }
     });
   });
 
   socket.on("down", (data) => {
-    // This code is also unchanged.
     connections.forEach((con) => {
       if (con.id !== socket.id) {
-        con.emit("ondown", data); // 'data' now contains {x, y, color, width, tool}
+        con.emit("ondown", data);
       }
     });
   });
 
-  // NEW: Listen for the "clear" event
   socket.on("clear", () => {
-    // Emit "onclear" to ALL connected clients (including the sender)
     io.emit("onclear");
   });
 
@@ -38,7 +34,13 @@ io.on("connection", (socket) => {
   });
 });
 
+// This line serves your script.js file. Make sure it's "." not "public"
 app.use(express.static("."));
+
+// NEW: This line fixes the "Cannot GET /" error
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/index.html");
+});
+
 let PORT = process.env.PORT || 8080;
 httpServer.listen(PORT, () => console.log(`Server started on port ${PORT}`));
-
