@@ -38,6 +38,7 @@ io.on("connection", (socket) => {
   });
 });
 
-app.use(express.static("public"));
+app.use(express.static("."));
 let PORT = process.env.PORT || 8080;
 httpServer.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+
